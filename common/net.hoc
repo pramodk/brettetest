@@ -8,7 +8,7 @@ C_I = int(N_I*CONNECTIVITY)	// nb inh synapses per neuron
 C_E = int(N_E*CONNECTIVITY)	// nb exc synapses per neuron
 AMPA_GMAX       = 0.006		// (uS)
 GABA_GMAX       = 0.067		// (uS)
-DELAY		= 0		// (ms)
+DELAY		= 1		// (ms)
 }
 netparam()
 
