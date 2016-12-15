@@ -10,7 +10,8 @@ proc init() {
 	start()
 }
 func start() {
-	return r.MCellRan4(stream*random_stream_offset_ + 1)
+	//return r.MCellRan4(stream*random_stream_offset_ + 1)
+	return r.Random123(stream,0,0)
 }
 func repick() {
 	return r.repick()
