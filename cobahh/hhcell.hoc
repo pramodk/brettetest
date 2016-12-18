@@ -1,5 +1,9 @@
 // Mostly constructed by cell builder. Lines marked with //* added manually
-{load_file("hhchan.ses")} //*
+
+// coreneuron does not handle KSChan. Also KSChan does not
+// allow cvode.cache_efficient(1), so use nahh and khh mod files
+// instead of hhchan.ses
+//{load_file("hhchan.ses")} //*
 
 //Network cell templates
 //   CobaHHCell
