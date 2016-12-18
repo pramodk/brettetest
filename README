@@ -1,3 +1,6 @@
+For CoreNEURON in the model folders create a coredat folder and use
+nrniv -c nrncore=1 init.hoc
+	
 DESCRIPTION AND USAGE NOTES
 
 of the NEURON benchmark models for Brette et al (2006) 
