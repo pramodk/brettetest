@@ -1,6 +1,14 @@
 For CoreNEURON in the model folders create a coredat folder and use
+eg. for cobahh
 nrniv -c nrncore=1 init.hoc
-	
+sortspike out.dat out.std
+~/bb/manage_corenrn_sims/corenrnbuild -m moddir -b buildcpu \
+  -s $HOME/bb/coreneuron -i $HOME/bb/install -nopg	
+buildcpu/bin/coreneuron_exec -d coredat -e 1000 -b 200000 -v -60.
+sortspike out0.dat temp
+diff out.std temp
+
+
 DESCRIPTION AND USAGE NOTES
 
 of the NEURON benchmark models for Brette et al (2006) 

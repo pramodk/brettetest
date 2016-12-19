@@ -13,7 +13,7 @@ svec = new Vector()
 stvec = new Vector()
 objref stimlist, ncstimlist
 proc create_stim() {local i, gid  localobj stim, cell, nc, rs
-	mcell_ran4_init($1)
+//	mcell_ran4_init($1)
 	stimlist = new List()
 	ncstimlist = new List()
 
@@ -39,9 +39,10 @@ proc create_stim() {local i, gid  localobj stim, cell, nc, rs
 		stim.start = 0
 		// Use the gid-specific random generator so random streams are
 		// independent of where and how many stims there are.
-		stim.noiseFromRandom(rs.r)
-		rs.r.negexp(1)
-		rs.start()
+//		stim.noiseFromRandom(rs.r)
+//		rs.r.negexp(1)
+//		rs.start()
+		stim.noiseFromRandom123(gid, $1, 0 )
 
 		if (hoc_sf_.is_artificial(cell)) {
 			nc = new NetCon(stim, cell)
