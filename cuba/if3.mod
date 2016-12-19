@@ -138,7 +138,7 @@ FUNCTION firetimebound() (ms) {
 :	printf("firetimebound=%g\n", firetimebound)
 }
 
-LOCAL total, nexttotal
+:LOCAL total, nexttotal
 
 INITIAL {
 	factors()
@@ -152,8 +152,8 @@ INITIAL {
 	nself=0
 	nexcite=0
 	ninhibit=0
-	total = 0
-	nexttotal = 1000
+	:total = 0
+	:nexttotal = 1000
 }
 
 NET_RECEIVE (w) {
@@ -172,11 +172,11 @@ NET_RECEIVE (w) {
 			on = 0
 			m = 0
 			net_send(refrac, 2) : start refractory state
-			total = total + 1
-			if (total == nexttotal) {
+:			total = total + 1
+:			if (total == nexttotal) {
 :				printf("IF3 total spikes %g at %g\n", total, t)
-				nexttotal = nexttotal + 1000
-			}
+:				nexttotal = nexttotal + 1000
+:			}
 		}else{ : try again
 			net_send(firetimebound(), 1)
 		}
