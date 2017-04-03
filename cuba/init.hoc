@@ -4,7 +4,7 @@
 {load_file("cubacell.hoc")}  // defines obfunc newcell() which spawns a new cell
 
 // Procedures that set up network architecture and performance reporting.
-{load_file("../common/init.hoc")}
+{load_file("common_init.hoc")}
 
 /* To implement this network model with IF3, the first question is how to 
 represent the cells, and the second is how to represent the synapses.

@@ -6,7 +6,7 @@
 {load_file("cubadvcell.hoc")}  // called by create_cells() in common/net.hoc
 
 // Procedures that set up network architecture and performance reporting.
-{load_file("../common/init.hoc")}
+{load_file("common_init.hoc")}
 
 // Note: in original spec from Alain, threshold is -50(mV), reset is -60(mV)
 // and the voltage jumps are 0.25 and -2.25 respectively.

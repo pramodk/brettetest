@@ -2,6 +2,8 @@ For CoreNEURON in the model folders create a coredat folder and use
 eg. for cobahh
 mkdir coredat
 nrnivmodl
+cd cobahh
+export HOC_LIBRARY_PATH=`pwd`/../common
 nrniv -c nrncore=1 init.hoc
 sortspike out.dat out.std
 mkdir moddir

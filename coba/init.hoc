@@ -4,7 +4,7 @@
 {load_file("cobacell.hoc")}  // defines CobaCell class
 
 // Procedures that set up network architecture and performance reporting.
-{load_file("../common/init.hoc")}
+{load_file("common_init.hoc")}
 
 // Called by create_cells() in common/net.hoc
 obfunc newcell() {
