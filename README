@@ -1,73 +1,74 @@
-For CoreNEURON in the model folders create a coredat folder and use
-eg. for cobahh
-mkdir coredat
-nrnivmodl
+## Running With CoreNEURON
+For CoreNEURON, in the model folders create a coredat folder and use (eg. for cobahh) :
+
+```bash
 cd cobahh
+mkdir coredat
+nrnivmodl 
+
 export HOC_LIBRARY_PATH=`pwd`/../common
-nrniv -c nrncore=1 init.hoc
+./x86_64/special -c nrncore=1 init.hoc
+
 sortspike out.dat out.std
+```
+
+If you want to run from out of directory, one can use:
+```
+export HOC_LIBRARY_PATH=`pwd`/brettetest/common/:`pwd`/brettetest/cobahh
+mpirun -n 1 `pwd`/brettetest/cobahh/x86_64/special -c mystop=10 brettetest/cobahh/init.hoc -mpi
+```
+
+To run CoreNEURON:
+
+```bash
 mkdir moddir
 cp *.mod moddir
 ~/bb/manage_corenrn_sims/corenrnbuild -m moddir -b buildcpu \
-  -s $HOME/bb/coreneuron -i $HOME/bb/install -nopg	
+  -s $HOME/bb/coreneuron -i $HOME/bb/install -nopg
 buildcpu/bin/coreneuron_exec -d coredat -e 1000 -b 200000 -v -60.
 sortspike out0.dat temp
 diff out.std temp
+```
 
-Note that as of 19.12.2016 that net_move in coreneuron is not handled
-properly when the STL priority queue is used. To avoid problems with cuda
-and cudadv, it is recommmended to use the splaytree queue by building
-coreneuron using the -DENABLE_SPLAYTREE_QUEUING option for cmake.
+Note that as of 19.12.2016 that net_move in coreneuron is not handled properly when the STL priority queue is used. To avoid problems with cuda and cudadv, it is recommmended to use the splaytree queue by building coreneuron using the `-DENABLE_SPLAYTREE_QUEUING` option for cmake.
 
 
-DESCRIPTION AND USAGE NOTES
+### DESCRIPTION AND USAGE NOTES
 
-of the NEURON benchmark models for Brette et al (2006) 
-Simulation of networks of spiking neurons: 
-a review of tools and strategies.
+of the NEURON benchmark models for Brette et al (2006) Simulation of networks of spiking neurons: a review of tools and strategies.
 
 Autolaunching requires version 5.9.30 or higher.
-To manually run from the mosinit.hoc file under Linux or Mac OS X,
-in the directory containing the mosinit.hoc file run
+To manually run from the mosinit.hoc file under Linux or Mac OS X, in the directory containing the mosinit.hoc file run
+```
     nrnivmodl coba cuba cubadv
     nrngui mosinit.hoc
-Alternatively, each model can be run from within its subdirectory 
-(after linking the model specific mod file). In that case, to view 
-the intrinsic cell properties, use
+```
+
+Alternatively, each model can be run from within its subdirectory (after linking the model specific mod file). In that case, to view the intrinsic cell properties, use
+```
     nrngui intrinsic.hoc
+```
 and to run the network simulation use
+```
     nrngui init.hoc
+```
 The latter will produce an out.dat file which can be viewed with
+```
     nrngui ../common/spkplt.hoc
+```
 Performance information is appended to the perf.dat file.
 
-The network simulations are ready to run, without modification, on 
-individual single processor machines, or on parallel cluster machines 
-under MPI.
+The network simulations are ready to run, without modification, on individual single processor machines, or on parallel cluster machines under MPI.
 
+### PROGRAM IMPLEMENTATION NOTES
 
-PROGRAM IMPLEMENTATION NOTES
+All four benchmark models have the same network structure, so the code that sets this up has been factored into a directory called common.  The "instrumentation code," which displays simulation results and gathers and reports performance information, is also shared across the models; it too has been placed in the common directory.
 
-All four benchmark models have the same network structure, so the 
-code that sets this up has been factored into a directory called 
-common.  The "instrumentation code," which displays simulation 
-results and gathers and reports performance information, is also 
-shared across the models; it too has been placed in the common 
-directory.
+The models differ with respect to the properties of their constituent cells, and how these cells are affected by synaptic inputs.  Cell- specific code has been factored into directores called coba, cobahh, cuba, and cubadv.
 
-The models differ with respect to the properties of their constituent 
-cells, and how these cells are affected by synaptic inputs.  Cell-
-specific code has been factored into directores called coba, cobahh, 
-cuba, and cubadv.
+Comments have been inserted into the source code at selected points to aid those who wish to pursue the implementational strategy more closely. Syntax and usage of hoc and NMODL are detailed in the Programmer's Reference (http://www.neuron.yale.edu/neuron/docs/help/contents.html) and chapters 5, 6, and 9-13 of The NEURON Book (Carnevale and Hines, Cambridge: Cambridge University Press, 2006).
 
-Comments have been inserted into the source code at selected points to 
-aid those who wish to pursue the implementational strategy more closely.  
-Syntax and usage of hoc and NMODL are detailed in the Programmer's 
-Reference (http://www.neuron.yale.edu/neuron/docs/help/contents.html)
-and chapters 5, 6, and 9-13 of The NEURON Book (Carnevale and Hines, 
-Cambridge: Cambridge University Press, 2006).
+### REVISIONS
 
-REVISIONS
-
-20110805 Ted Carnevale corrected the synaptic time constants for the 
+20110805 Ted Carnevale corrected the synaptic time constants for the
 NEURON implemetation of the coba model (see coba/cobacell.hoc).

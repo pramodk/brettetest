@@ -2,19 +2,38 @@
 
 {load_file("nrngui.hoc")}  // GUI and runtime libraries
 {load_file("hhcell.hoc")}  // defines CobaHHCell class
+{load_file("defvar.hoc")}
 
 // Procedures that set up network architecture and performance reporting.
 {load_file("common_init.hoc")}
+
+{cvode.cache_efficient(1)}
 
 // Called by create_cells() in common/net.hoc
 obfunc newcell() {
 	return new CobaHHCell()
 }
 
+// default stop time and data directory
+default_var("mystop", 10)
+default_var("coredat", "coredat")
+
+
+// create directory for writing dataset
+{
+    nrnpython("from commonutils import mkdir_p")
+    strdef cmd
+    sprint(cmd, "mkdir_p('%s')", coredat)
+    nrnpython(cmd)
+}
+
+
 // Create the cells, then connect them.
 create_net()  // in common/net.hoc
 
 STOPSTIM=100  // duration of stimulation (ms)
+
+tstop = mystop
 
 // Randomized spike trains driving excitatory synapses.
 create_stim(run_random_low_start_, AMPA_GMAX)  // in common/netstim.hoc
@@ -22,6 +41,9 @@ create_stim(run_random_low_start_, AMPA_GMAX)  // in common/netstim.hoc
 // A few last items for performance reports, e.g. set up spike time recording, and,
 // if in "demo" mode, create graph for raster plots, and panel with Stop button.
 finish_setup()  // in common/init.hoc
+
+
+//pc.nrnbbcore_write(coredat)
 
 // Parallel run to tstop.
 prun()  // in common/perfrun.hoc
